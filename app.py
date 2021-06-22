@@ -35,8 +35,11 @@ def predict():
     article.parse()
     article.nlp()
     news = article.summary
+    print('url: ', url)
+    print('article: ', article)
     #Passing the news article to the model and returing whether it is Fake or Real
     pred = model.predict([news])
+    print('news: ', news)
     return render_template('index.html', prediction_text='The news is "{}"'.format(pred[0]))
     
 if __name__=="__main__":
