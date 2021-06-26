@@ -66,9 +66,11 @@
   <div class="container">
     <div class="row min-vh-100">
       <div class="about-content">
-        <img src="static/img/logo.jpg" alt="profile-img">
+        <center><img src="static/img/logo.jpg" alt="profile-img"></center>
         <h1>Hi, We are from <a class="link-item">JORDAN</a> Team.</h1>
         <h2>โครงการเว็บแอพพลิเคชันคัดกรองข่าวปลอมในประเทศไทย</h2>
+          <p>JORDAN เป็นส่วนหนึ่งของโครงการ Young Safe Internet Leader Cyber Camp พวกเราคือเยาวชนพลเมืองอินเทอร์เน็ต ที่ตั้งใจลุกขึ้นมาเปลี่ยนแปลงสังคมออนไลน์ให้ปลอดภัย และสร้างสรรค์ (Responsible Netizen) โดยได้รับการสนับสนุนจาก dtac และ Plan International Thailand</p>
+        <h2>ทำไมถึงทำโปรเจคนี้?</h2>
           <p>ปฏิเสธไม่ได้เลยว่าเทคโนโลยีเป็นสิ่งที่อยู่คู่กับการใช้ชีวิตประจำวันของมนุษย์ ทำให้มนุษย์เราพูดคุยกันน้อยลง แล้วหันไปเสพสื่อโซเชียลมีเดียกันมากขึ้น โดยสื่อข่าวทั้งหมดที่เราเสพในแต่ละวัน มีทั้งข่าวจริงและข่าวปลอมปะปนกันไป ซึ่งสังคมได้ยอมรับสื่อออนไลน์กันมากขึ้นมากขึ้นและมนุษย์มักมีพฤติกรรมที่“เชื่อในสิ่งที่เราเชื่ออยู่แล้ว” ก็อาจทำให้ข่าวที่คลาดเคลื่อนจากความจริงเพื่อให้ถูกใจคนอ่านแต่ ทำให้ได้รับความนิยมมากขึ้นตามมา</p>
           <p>จากที่กล่าวมาข้างต้นจึงทำให้มีสำนักข่าวใหม่เกิดขึ้นเป็นจำนวนมาก เพื่อที่ต้องการแสวงหาผลประโยชน์ ผลกำไร ทางด้านต่างๆ จากความนิยมของคนอ่าน โดยไม่สนใจว่าสิ่งที่ทำนั้นจะเป็นการสร้างข่าวปลอมขึ้นมาทั้งหมด สร้างข่าวปลอมขึ้นมาเพียงบางส่วน เพื่อต้องการในชื่อเสียง ยอดไลค์ ยอดแชร์ ซึ่งสิ่งเหล่านี้ส่งผลให้สำนักข่าวเป็นที่รู้จักมากขึ้นเป็นวงกว้าง และสามารถนำชื่อเสียงเหล่านี้เพื่อมาหาลูกค้า ที่ต้องนำสินค้าหรือธุรกิจมาลงโฆษณาในสำนักข่าว</p>
           <p>อย่างไรก็ตามปัญหาข่าวปลอมนั้นแก้ไม่ง่าย เพราะการวิเคราะห์ว่าข่าวไหนเป็นข่าวจริงหรือปลอม (ทั้งที่ปลอมบางส่วนและปลอมทั้งหมด) เป็นเรื่องยากและต้องใช้เวลามาก เนื่องจากปริมาณข่าวปลอมที่มีจำนวนมากและมีการเพิ่มขึ้นแบบทวีคูณ การแยกแยะโพสต์ในอินเทอร์เน็ตว่าอันไหนเป็นข่าวปลอมให้ได้ตลอดเวลา ต่อให้เป็นมนุษย์ที่มีประสบการณ์ด้านสื่อสารมวลชนมากก็ตาม จึงสรุปได้ว่าเป็นปัญหาที่ยังไม่สามารถแก้ไขโดยง่ายด้วยมนุษย์รวมถึงการเขียนโปรแกรมแบบใช้เงื่อนไขทั่วไป</p>
@@ -77,13 +79,19 @@
         
         <br>
         <br>  
-        <form action="{{ url_for('predict')}}"method="post">
-          <input type="text" name="news" placeholder="ใส่ URL ของข่าวที่ต้องการตรวจสอบ" required="required" />
+        <form action="{{ url_for('predict')}}" method="POST">
+          <textarea name="message" rows="6" cols="50" placeholder="ใส่เนื้อหาข่าวที่ช่องนี้" required="required"></textarea>
+          <!-- <input type="text" name="message" placeholder="ใส่เนื้อหาข่าวที่ช่องนี้" required="required" /> -->
+          <br></br>
           <button type="submit" class="btn btn-primary btn-block btn-large">ตรวจสอบ</button>
+          <div class="results">
+          {% if prediction == ['FAKE']%}
+            <h2 style="color:red;">ข่าวนี้เป็นข่าวเท็จ กรุณาอย่าแชร์ต่อ</h2>
+          {% elif prediction == ['REAL']%}
+            <h2 style="color:green;"><b>ข่าวนี้เป็นข่าวจริง สามารถแชร์ต่อได้</b></h2>
+          {% endif %}  
+      </div>
         </form>
-        <br>
-        <br>
-        {{ prediction_text }}
       </div>
     </div>
   </div>
@@ -105,7 +113,8 @@
 
     </div>
     <div class="row portfolio-items">
-       <!-- portfolio item start -->
+
+       <!-- Film's portfolio item start -->
        <div class="portfolio-item" data-category="front-end">
          <div class="portfolio-item-thumbnail">
            <img src="static/img/portfolio/film.jpg" alt="thumbnail">
@@ -122,10 +131,10 @@
        </div>
        <!-- portfolio item end -->
 
-       <!-- portfolio item start -->
-       <div class="portfolio-item" data-category="front-end,bootstrap">
+       <!-- Thyme's portfolio item start -->
+       <div class="portfolio-item" data-category="front-end">
         <div class="portfolio-item-thumbnail">
-          <img src="static/img/portfolio/thyme.png" alt="thumbnail">
+          <img src="static/img/portfolio/thyme.jpg" alt="thumbnail">
           <button type="button" class="btn more-info-btn">more info</button>
         </div>
         <h3 class="portfolio-item-title">นายปวริศร์ เปี่ยมปรีชา</h3>
@@ -133,15 +142,16 @@
           <div class="general-info">
             <p>สถานศึกษา - <span>โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)</span></p>
             <p>Email - <span>pawarit.jp@gmail.com</span></p>
+            <p>Instagram - <span><a href="https://www.instagram.com/thyme_pp/" target="_blank">thyme_pp</a></span></p>
           </div>
         </div>
-       </div>
-       <!-- portfolio item end -->
+      </div>
+      <!-- portfolio item end -->
 
-       <!-- portfolio item start -->
-       <div class="portfolio-item" data-category="back-end">
+       <!-- O's portfolio item start -->
+       <div class="portfolio-item" data-category="front-end">
         <div class="portfolio-item-thumbnail">
-          <img src="static/img/portfolio/o.png" alt="thumbnail">
+          <img src="static/img/portfolio/o.jpg" alt="thumbnail">
           <button type="button" class="btn more-info-btn">more info</button>
         </div>
         <h3 class="portfolio-item-title">นายณัฎธนนท์ นาวีเรืองรัตน์</h3>
@@ -149,10 +159,11 @@
           <div class="general-info">
             <p>สถานศึกษา - <span>โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)</span></p>
             <p>Email - <span>natthanonnav@gmail.com</span></p>
+            <!-- <p>Instagram - <span><a href="https://www.instagram.com/5hyfilm/" target="_blank">5hyfilm</a></span></p> -->
           </div>
         </div>
-       </div>
-       <!-- portfolio item end -->
+      </div>
+      <!-- portfolio item end -->
     </div>
   </div>
 </section>
@@ -190,25 +201,6 @@
          <div class="contact-form-inner">
            <div class="contact-form-container">
              <button type="button" class="close-btn toggle-contact-form-btn"></button>
-             <form >
-               <div class="row">
-                 <div class="input-group">
-                   <input type="text" placeholder="Your Name" class="input-control">
-                 </div>
-                 <div class="input-group">
-                  <input type="text" placeholder="Your Email" class="input-control">
-                </div>
-                <div class="input-group">
-                  <input type="text" placeholder="Subject" class="input-control">
-                </div>
-                <div class="input-group">
-                  <textarea placeholder="Message" class="input-control"></textarea>
-                </div>
-                <div class="input-group">
-                  <button type="submit" class="btn btn-submit">send</button>
-                </div>
-               </div>
-             </form>
            </div>
          </div>
        </div>
@@ -228,7 +220,7 @@
         </h2>
         <button type="button" title="close" class="close-btn pp-close-btn"></button>
         <div class="pp-thumbnail">
-          <img src="static/img/portfolio/7.jpg" alt="pp-thumbnail">
+          <img src=" " alt="pp-thumbnail">
         </div>
         <h3></h3>
       </div>
@@ -240,14 +232,14 @@
             <i class="fas fa-arrow-left"></i>
           </button>
           <h3></h3>
-          <img src="static/img/portfolio/1.jpg" alt="prev work thumbnail">
+          <img src=" " alt="prev work thumbnail">
         </div>
         <div class="pp-footer-right hidden">
           <button type="button" title="Next Work" class="btn pp-next-btn">
             <i class="fas fa-arrow-right"></i>
           </button>
           <h3></h3>
-          <img src="static/img/portfolio/2.jpg" alt="next work thumbnail">
+          <img src=" " alt="next work thumbnail">
         </div>
       </div>
     </div>
