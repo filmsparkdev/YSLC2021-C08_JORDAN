@@ -34,5 +34,5 @@ jobs:
       with:
         app-name: YSLC2021-C08-JORDAN
         slot-name: Production
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_66F0C88FE51842AFB1CC3895984D459A }}
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_57563F8D925B42AC94B354E4B6586C52 }}
 
